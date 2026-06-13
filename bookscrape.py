@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-
+import pandas as pd 
 url = "http://books.toscrape.com/index.html"
 
 response = requests.get(url)
@@ -20,9 +20,13 @@ for card in cards:
 
     book_item ={
         'title': title,
-        'price': price
+        'price': price.replace('£', '')
     }
 
     all_scraped_books.append(book_item)
 
-print(all_scraped_books)
+df = pd.DataFrame(all_scraped_books)
+df.to_csv("scraped_books.csv" ,index=False) #to save the data to a csv file
+print(df.head())
+df.to_excel("scraped_books.xlsx", index=False) #to save the data to an excel file
+print(df.head())
